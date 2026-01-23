@@ -21,21 +21,26 @@ int method_select(char *method) {
         return OPTIONS;
     } else if (strcmp(method, "TRACE") == 0) {
         return TRACE;
+    } else {
+        return -1;
     }
 }    
 
 struct HttpRequest http_request_constructor(char *request_string) {
-    for(int i = 0; i < strlen(request_string) - 1; i++) {
-        if (request_string[i] == '\n' && request_string[i + 1] == '\n') {
-            request_string[i + 1] = '|';
+    struct HttpRequest request;
+    char requested[strlen(request_string)];
+    strcpy(requested, request_string);
+    for(int i = 0; i < strlen(requested) - 2; i++) {
+        if (requested[i] == '\n' && requested[i + 1] == '\n') {
+            printf("a\n");
+            requested[i + 1] = '|';
         }
     }
     
-    char *request_line = strtok(request_string, "\n");
+    char *request_line = strtok(requested, "\n");
     char *header_fields = strtok(NULL, "|");
     char *body = strtok(NULL, "|");
 
-    struct HttpRequest request;
     
     char *method = strtok(request_line, " ");
     request.Method = method_select(method);

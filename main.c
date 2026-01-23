@@ -2,6 +2,7 @@
 #include <string.h>
 #include <unistd.h>
 #include "server.h"
+#include "HttpRequest.h"
 
 void launch(struct Server *server) {
     char buffer[30000];
@@ -16,7 +17,7 @@ void launch(struct Server *server) {
         read(new_socket, buffer, 30000);
 
         printf("%s\n", buffer);
-
+        
         
         close(new_socket);
     }
