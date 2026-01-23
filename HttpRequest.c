@@ -1,35 +1,26 @@
 #include "HttpRequest.h"
 #include <string.h>
+#include <stdlib.h>
 
 int method_select(char *method) {
-    switch (method)
-    {
-        case "GET":
-            return GET;
-        
-        case "POST":
-            return POST;
-        
-        case "PUT":
-            return PUT;
-
-        case "HEAD":
-            return HEAD;
-    
-        case "PATCH":
-            return PATCH;
-
-        case "DELETE":
-            return DELETE;
-
-        case "CONNECT":
-            return CONNECT;
-
-        case "OPTIONS":
-            return OPTIONS;
-
-        case "TRACE":
-            return TRACE;
+    if (strcmp(method, "GET") == 0) {
+        return GET;
+    } else if (strcmp(method, "POST") == 0) {
+        return POST;
+    } else if (strcmp(method, "PUT") == 0) {
+        return PUT;
+    } else if (strcmp(method, "HEAD") == 0) {
+        return HEAD;
+    } else if (strcmp(method, "PATCH") == 0) {
+        return PATCH;
+    } else if (strcmp(method, "DELETE") == 0) {
+        return DELETE;
+    } else if (strcmp(method, "CONNECT") == 0) {
+        return CONNECT;
+    } else if (strcmp(method, "OPTIONS") == 0) {
+        return OPTIONS;
+    } else if (strcmp(method, "TRACE") == 0) {
+        return TRACE;
     }
 }    
 
@@ -47,8 +38,15 @@ struct HttpRequest http_request_constructor(char *request_string) {
     struct HttpRequest request;
     
     char *method = strtok(request_line, " ");
-
     request.Method = method_select(method);
+
+    char *URI = strtok(NULL, " ");
+    request.URI = URI;
+
+    char *HttpVersion = strtok(NULL, " ");
+    HttpVersion = strtok(NULL, "/");
+    HttpVersion = strtok(NULL, "/");
+    request.HttpVersion = (float)atof(HttpVersion);
 
     return request;
 };
