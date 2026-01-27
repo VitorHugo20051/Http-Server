@@ -1,26 +1,31 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include "server.h"
+#include "Server.h"
 #include "HttpRequest.h"
 
 void launch(struct Server *server) {
-    char buffer[30000];
-    char path[256];
-    int address_lenght = sizeof(server->address);
-    int new_socket;
+    int addr_len = sizeof(server->address);
+    long valread;
 
     while(1) {
-        printf("===== WAITING FOR CONNECTION =====\n");
+        printf("=== WAITING ===\n");
 
-        new_socket = accept(server->socket, (struct sockaddr *)&server->address, (socklen_t *)&address_lenght);
-        read(new_socket, buffer, 30000);
+        int new_socket = accept(server->socket, (struct sockaddr *)&server->address, (socklen_t *)&addr_len);
+        char buffer[30000];
+        valread = read(new_socket, buffer, 30000);
 
-        printf("%s\n", buffer);
-        
-        
+        struct HttpRequest request = http_request_constructor(buffer);
+
+        retrive_page(request, new_socket);
         close(new_socket);
     }
+}
+
+void retrive_page(struct HttpRequest request, int socket) {
+    char path[30000] = {0};
+
+    char *url = strtok(request.request_line.search(&request.request_line, "uri", sizeof("uri")), "?");
 }
 
 int main() {
