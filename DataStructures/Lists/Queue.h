@@ -10,7 +10,7 @@ struct Queue {
     void (*pop) (struct Queue *queue);
 };
 
-struct Queue *queue_constructor(void);
+struct Queue queue_constructor(void);
 
 void queue_destructor(struct Queue *queue);
 
