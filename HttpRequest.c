@@ -3,15 +3,22 @@
 #include <string.h>
 #include <stdlib.h>
 
+void extract_request_line(struct HttpRequest *request, char *request_line);
+void extract_header_fields(struct HttpRequest *request, char *header_fields);
+void extract_body(struct HttpRequest *request, char *body);
+
 struct HttpRequest http_request_constructor(char *request_string) {
     struct HttpRequest request;
     char requested[strlen(request_string)];
     strcpy(requested, request_string);
     for(int i = 0; i < strlen(requested) - 2; i++) {
         if (requested[i] == '\n' && requested[i + 1] == '\n') {
-            printf("a\n");
             requested[i + 1] = '|';
         }
+    }
+
+    for (int i = 0; i < strlen(requested); i++) {
+        if (requested[i] == '\r') requested[i] = ' ';
     }
     
     char *request_line = strtok(requested, "\n");
@@ -31,7 +38,7 @@ void http_request_destructor(struct HttpRequest *request) {
     dictionary_destructor(&request->body);
 }
 
-void extract_request_line_fields(struct HttpRequest *request, char *request_line) {
+void extract_request_line(struct HttpRequest *request, char *request_line) {
     char fields[strlen(request_line)];
     strcpy(fields, request_line);
 
