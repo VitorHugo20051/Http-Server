@@ -1,5 +1,5 @@
 #ifndef Dictionary_h
-#define Dicitionary_h
+#define Dictionary_h
 
 #include "../Trees/BinarySearchTree.h"
 #include "../Lists/LinkedList.h"
