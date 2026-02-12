@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct Server server_constructor(int domain, int service, int protocol, u_long interface, int port, int backlog, void(*launch)(struct Server *server)) {
+struct Server server_constructor(int domain, int service, int protocol, u_long interface, int port, int backlog) {
     struct Server server;
 
     server.domain = domain;
@@ -32,8 +32,6 @@ struct Server server_constructor(int domain, int service, int protocol, u_long i
         perror("Bem...\n Failed to start listening\n");
         exit(1);
     }
-
-    server.launch = launch;
         
     return server;
 };

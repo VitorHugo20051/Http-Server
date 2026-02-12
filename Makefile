@@ -7,6 +7,7 @@ SRC = main.c \
       Server.c \
       HttpRequest.c \
       HttpServer.c \
+      Routes.c \
       DataStructures/Common/Node.c \
       DataStructures/Dictionary/Dictionary.c \
       DataStructures/Dictionary/Entry.c \
